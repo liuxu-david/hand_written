@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+  function myAxios(config) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open(config.method || "GET", config.url);
+
+      // 判断是否有请求头
+      if (Reflect.ownKeys(config.headers||{}).length > 0) {
+        Object.keys(config.headers).forEach((key) => {
+          xhr.setRequestHeader(key, config.headers[key]);
+        });
+      }
+      xhr.onload = () => {
+        resolve({
+          data: xhr.responseText,
+          status: xhr.status,
+        });
+      };
+      xhr.onerror = () => {
+        reject("Error");
+      };
+
+      xhr.send();
+  });
+ }
+
+(async () => {
+  try {
+    const result = await myAxios({
+      url: "https://jsonplaceholder.typicode.com/todos/1",
+    });
+    console.log(result.status);
+  } catch (error) {
+    console.log("error",error);
+  }
+})();
+
+  </script>
+</body>
+</html>
