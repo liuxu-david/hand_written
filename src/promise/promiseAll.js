@@ -13,6 +13,8 @@ const promise3 = new Promise((resolve, reject) => {
     resolve(333);
   }, 1000);
 });
+
+// 返回全部promise成功执行的数组，如果有失败，直接返回失败结果
 function PromiseAll(arr) {
   let result = [];
   let num = 0;
